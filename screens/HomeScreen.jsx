@@ -1,4 +1,11 @@
-import React, { useState, useRef } from "react";
+
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   View,
   Text,
@@ -12,123 +19,182 @@ import {
   Easing,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width } = Dimensions.get("window");
-const TAB_WIDTH = width / 3; // عرض كل Tab بناءً على عدد الـ Tabs (3)
+const TAB_WIDTH = width / 4;
 
-const HomeScreen = () => {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(0); // لتتبع الـ Tab المختارة
-  const tabOffsetValue = useRef(new Animated.Value(0)).current; // للأنيميشن
+// أضفت navigation كـ prop للـ HomeScreen
+const HomeScreen = ({ navigation }) => {
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  // Animations
   const scaleValues = useRef(
-    [1, 1, 1].map(() => new Animated.Value(1))
-  ).current; // لتأثير Scale للأيقونات
+    [0, 0, 0, 0].map(() => new Animated.Value(1))
+  ).current;
+  const headerTitleOpacity = useRef(new Animated.Value(0)).current;
+  const headerSloganOpacity = useRef(new Animated.Value(0)).current;
 
-  // بيانات الـ Services لعرضها في Slider
-  const services = [
-    {
-      title: "Wedding Halls",
-      description:
-        "Turn your dream wedding into reality! Grand ballrooms, intimate garden settings, or chic modern spaces.",
-      image:
-        "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Makeup Services",
-      description:
-        "Enhance your natural beauty with expert touch! From glamorous bridal looks to chic evening styles.",
-      image:
-        "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Product Launch",
-      description:
-        "Make your product unforgettable! From concept to execution, we create buzz-worthy events.",
-      image:
-        "https://images.unsplash.com/photo-1556740714-a8395b3bf30f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Conference Halls",
-      description:
-        "Host impactful events in style! State-of-the-art facilities, flexible setups, and seamless tech integration.",
-      image:
-        "https://images.unsplash.com/photo-1505373877841-8d25f7d466b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Award Ceremonies",
-      description:
-        "Celebrate excellence in style! From red-carpet glamour to elegant stages, we create unforgettable moments.",
-      image:
-        "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Photography",
-      description:
-        "Capture the world through your unique perspective! Whether it's breathtaking landscapes or candid emotions.",
-      image:
-        "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Event Decorations",
-      description:
-        "Transform any space into a magical setting! From elegant floral arrangements to dazzling lighting.",
-      image:
-        "https://images.unsplash.com/photo-1519227356665-9d3d3d2e5878?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Catering For Events",
-      description:
-        "Delight your guests with exquisite flavors! From gourmet dishes to custom menus.",
-      image:
-        "https://images.unsplash.com/photo-1511690656952-34372bb4c2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Music Concerts",
-      description:
-        "Feel the rhythm, live the moment! From electrifying performances to unforgettable acoustics.",
-      image:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-  ];
+  // Data
+  const events = useMemo(
+    () => [
+      {
+        title: "Tech Summit 2024",
+        location: "San Francisco",
+        attendees: "500+ Attendees",
+        description:
+          "Join the biggest tech conference of the year featuring industry leaders.",
+        image:
+          "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+        date: { day: "15", month: "APR" },
+      },
+      {
+        title: "Design Conference",
+        location: "New York",
+        attendees: "300+ Attendees",
+        description:
+          "Explore the latest trends in design with world-renowned designers.",
+        image:
+          "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80",
+        date: { day: "20", month: "MAY" },
+      },
+      {
+        title: "Startup Weekend",
+        location: "London",
+        attendees: "200+ Attendees",
+        description: "Turn your idea into reality in 54 hours with mentors.",
+        image:
+          "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+        date: { day: "10", month: "JUN" },
+      },
+    ],
+    []
+  );
 
-  // دالة لتحريك الأنيميشن لما نختار Tab
-  const handleTabPress = (index) => {
-    setSelectedTab(index);
+  const services = useMemo(
+    () => [
+      {
+        title: "Wedding Halls",
+        description:
+          "Turn your dream wedding into reality with grand ballrooms or intimate garden settings.",
+        image:
+          "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      },
+      {
+        title: "Makeup Services",
+        description:
+          "Enhance your natural beauty with expert touch for any occasion.",
+        image:
+          "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      },
+      {
+        title: "Product Launch",
+        description:
+          "Make your product unforgettable with a buzz-worthy event.",
+        image:
+          "https://images.unsplash.com/photo-1556740714-a8395b3bf30f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      },
+      {
+        title: "Conference Halls",
+        description:
+          "Host impactful events with state-of-the-art facilities and seamless tech.",
+        image:
+          "https://images.unsplash.com/photo-1505373877841-8d25f7d466b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      },
+    ],
+    []
+  );
 
-    // أنيميشن الدائرة اللي بتتحرك
-    Animated.timing(tabOffsetValue, {
-      toValue: index * TAB_WIDTH,
-      duration: 300,
-      easing: Easing.inOut(Easing.ease),
-      useNativeDriver: true,
-    }).start();
+  const whyChooseUs = useMemo(
+    () => [
+      {
+        icon: "calendar-outline",
+        title: "Easy Booking",
+        description:
+          "Book your events in just a few clicks with our seamless platform.",
+      },
+      {
+        icon: "star-outline",
+        title: "Top Events",
+        description: "Discover the best events curated just for you.",
+      },
+      {
+        icon: "briefcase-outline",
+        title: "Premium Services",
+        description:
+          "Access a wide range of premium services tailored to your needs.",
+      },
+      {
+        icon: "headset-outline",
+        title: "24/7 Support",
+        description: "Our team is here to assist you anytime, anywhere.",
+      },
+    ],
+    []
+  );
 
-    // أنيميشن Scale للأيقونات
-    scaleValues.forEach((scale, i) => {
-      Animated.timing(scale, {
-        toValue: i === index ? 1.2 : 1,
-        duration: 200,
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(headerTitleOpacity, {
+        toValue: 1,
+        duration: 800,
         useNativeDriver: true,
-      }).start();
-    });
-  };
+      }),
+      Animated.timing(headerSloganOpacity, {
+        toValue: 1,
+        duration: 800,
+        delay: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
+  const handleTabPress = useCallback(
+    (index, screenName) => {
+      setSelectedTab(index);
+      Animated.parallel([
+        ...scaleValues.map((scale, i) =>
+          Animated.timing(scale, {
+            toValue: i === index ? 1.2 : 1,
+            duration: 300,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          })
+        ),
+      ]).start();
+
+      // التنقل باستخدام navigation.navigate
+      if (screenName) {
+        navigation.navigate(screenName);
+      }
+    },
+    [scaleValues, navigation]
+  );
 
   return (
     <View style={styles.container}>
-      {/* Header with Slogan */}
+      {/* Header */}
       <ImageBackground
         source={{
           uri: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
         }}
         style={styles.header}
       >
-        <View style={styles.overlay} />
+        <LinearGradient
+          colors={["rgba(0, 0, 0, 0.6)", "rgba(0, 0, 0, 0.3)"]}
+          style={styles.overlay}
+        />
         <View style={styles.headerContent}>
-          <Text style={styles.headerTitle}>Discover Amazing Events</Text>
-          <Text style={styles.headerSlogan}>
-            Crafting Moments That Matter 🎉
-          </Text>
+          <Animated.Text
+            style={[styles.headerTitle, { opacity: headerTitleOpacity }]}
+          >
+            Discover Amazing Events
+          </Animated.Text>
+          <Animated.Text
+            style={[styles.headerSlogan, { opacity: headerSloganOpacity }]}
+          >
+            Crafting Moments That Matter in Your Life
+          </Animated.Text>
         </View>
       </ImageBackground>
 
@@ -140,122 +206,69 @@ const HomeScreen = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.sliderContent}
+            snapToInterval={width * 0.75 + 15}
+            decelerationRate="fast"
           >
-            <View style={styles.eventGrid}>
-              <TouchableOpacity style={styles.eventCard}>
+            {events.map((event, index) => (
+              <TouchableOpacity key={index} style={styles.eventCard}>
                 <View style={styles.eventImageContainer}>
                   <Image
-                    source={{
-                      uri: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                    }}
+                    source={{ uri: event.image }}
                     style={styles.eventImage}
+                    defaultSource={{ uri: "https://via.placeholder.com/150" }}
                   />
-                  <View style={styles.eventOverlay} />
+                  <LinearGradient
+                    colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.7)"]}
+                    style={styles.eventOverlay}
+                  />
                   <View style={styles.eventDate}>
-                    <Text style={styles.eventDay}>15</Text>
-                    <Text style={styles.eventMonth}>APR</Text>
+                    <Text style={styles.eventDay}>{event.date.day}</Text>
+                    <Text style={styles.eventMonth}>{event.date.month}</Text>
                   </View>
                 </View>
                 <View style={styles.eventDetails}>
-                  <Text style={styles.eventTitle}>Tech Summit 2024</Text>
+                  <Text style={styles.eventTitle}>{event.title}</Text>
                   <View style={styles.eventInfo}>
-                    <Icon name="location-outline" size={16} color="#6b7280" />
-                    <Text style={styles.eventInfoText}>San Francisco</Text>
-                    <Icon name="people-outline" size={16} color="#6b7280" />
-                    <Text style={styles.eventInfoText}>500+ Attendees</Text>
+                    <Icon
+                      name="location-outline"
+                      size={16}
+                      color={COLORS.textSecondary}
+                    />
+                    <Text style={styles.eventInfoText}>{event.location}</Text>
+                    <Icon
+                      name="people-outline"
+                      size={16}
+                      color={COLORS.textSecondary}
+                    />
+                    <Text style={styles.eventInfoText}>{event.attendees}</Text>
                   </View>
                   <Text style={styles.eventDescription}>
-                    Join the biggest tech conference of the year featuring
-                    industry leaders.
+                    {event.description}
                   </Text>
-                  <View style={styles.eventActions}>
-                    <TouchableOpacity style={styles.detailsButton}>
-                      <Text style={styles.detailsButtonText}>View Details</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.calendarButton}>
-                      <Icon name="calendar-outline" size={20} color="#ffffff" />
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity style={styles.eventButton} onPress={() => navigation.navigate("event-details")}>
+                    <Text style={styles.eventButtonText}>View Details</Text>
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
-
-              <TouchableOpacity style={styles.eventCard}>
-                <View style={styles.eventImageContainer}>
-                  <Image
-                    source={{
-                      uri: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80",
-                    }}
-                    style={styles.eventImage}
-                  />
-                  <View style={styles.eventOverlay} />
-                  <View style={styles.eventDate}>
-                    <Text style={styles.eventDay}>20</Text>
-                    <Text style={styles.eventMonth}>MAY</Text>
-                  </View>
-                </View>
-                <View style={styles.eventDetails}>
-                  <Text style={styles.eventTitle}>Design Conference</Text>
-                  <View style={styles.eventInfo}>
-                    <Icon name="location-outline" size={16} color="#6b7280" />
-                    <Text style={styles.eventInfoText}>New York</Text>
-                    <Icon name="people-outline" size={16} color="#6b7280" />
-                    <Text style={styles.eventInfoText}>300+ Attendees</Text>
-                  </View>
-                  <Text style={styles.eventDescription}>
-                    Explore the latest trends in design with world-renowned
-                    designers.
-                  </Text>
-                  <View style={styles.eventActions}>
-                    <TouchableOpacity style={styles.detailsButton}>
-                      <Text style={styles.detailsButtonText}>View Details</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.calendarButton}>
-                      <Icon name="calendar-outline" size={20} color="#ffffff" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.eventCard}>
-                <View style={styles.eventImageContainer}>
-                  <Image
-                    source={{
-                      uri: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                    }}
-                    style={styles.eventImage}
-                  />
-                  <View style={styles.eventOverlay} />
-                  <View style={styles.eventDate}>
-                    <Text style={styles.eventDay}>10</Text>
-                    <Text style={styles.eventMonth}>JUN</Text>
-                  </View>
-                </View>
-                <View style={styles.eventDetails}>
-                  <Text style={styles.eventTitle}>Startup Weekend</Text>
-                  <View style={styles.eventInfo}>
-                    <Icon name="location-outline" size={16} color="#6b7280" />
-                    <Text style={styles.eventInfoText}>London</Text>
-                    <Icon name="people-outline" size={16} color="#6b7280" />
-                    <Text style={styles.eventInfoText}>200+ Attendees</Text>
-                  </View>
-                  <Text style={styles.eventDescription}>
-                    Turn your idea into reality in 54 hours with mentors.
-                  </Text>
-                  <View style={styles.eventActions}>
-                    <TouchableOpacity style={styles.detailsButton}>
-                      <Text style={styles.detailsButtonText}>View Details</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.calendarButton}>
-                      <Icon name="calendar-outline" size={20} color="#ffffff" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
+            ))}
           </ScrollView>
+          <View style={styles.pagination}>
+            {events.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  {
+                    backgroundColor:
+                      index === 0 ? COLORS.secondary : COLORS.textSecondary,
+                  },
+                ]}
+              />
+            ))}
+          </View>
         </View>
 
-        {/* Our Services Slider */}
+        {/* Our Services */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Our Services</Text>
           <ScrollView
@@ -263,113 +276,70 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.sliderContent}
           >
-            <View style={styles.serviceGrid}>
-              {services.map((service, index) => (
-                <TouchableOpacity key={index} style={styles.serviceCard}>
-                  <View style={styles.serviceImageContainer}>
-                    <Image
-                      source={{ uri: service.image }}
-                      style={styles.serviceImage}
-                    />
-                    <View style={styles.serviceOverlay} />
-                  </View>
-                  <View style={styles.serviceDetails}>
-                    <Text style={styles.serviceTitle}>{service.title}</Text>
-                    <Text style={styles.serviceDescription}>
-                      {service.description}
-                    </Text>
-                    <TouchableOpacity style={styles.serviceButton}>
-                      <Text style={styles.serviceButtonText}>Learn More</Text>
-                    </TouchableOpacity>
-                  </View>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </ScrollView>
-        </View>
-
-        {/* Testimonials */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>What People Say</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.sliderContent}
-          >
-            <View style={styles.testimonialGrid}>
-              <View style={styles.testimonialCard}>
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-                  }}
-                  style={styles.testimonialImage}
-                />
-                <Text style={styles.stars}>★★★★★</Text>
-                <Text style={styles.testimonialText}>
-                  "The platform made organizing our tech conference a breeze."
-                </Text>
-                <Text style={styles.testimonialAuthor}>Sarah Johnson</Text>
-                <Text style={styles.testimonialRole}>Event Organizer</Text>
-              </View>
-
-              <View style={styles.testimonialCard}>
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-                  }}
-                  style={styles.testimonialImage}
-                />
-                <Text style={styles.stars}>★★★★★</Text>
-                <Text style={styles.testimonialText}>
-                  "Found amazing events that matched my interests."
-                </Text>
-                <Text style={styles.testimonialAuthor}>Michael Chen</Text>
-                <Text style={styles.testimonialRole}>Attendee</Text>
-              </View>
-
-              <View style={styles.testimonialCard}>
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-                  }}
-                  style={styles.testimonialImage}
-                />
-                <Text style={styles.stars}>★★★★★</Text>
-                <Text style={styles.testimonialText}>
-                  "As a speaker, I love how easy it is to connect with
-                  audiences."
-                </Text>
-                <Text style={styles.testimonialAuthor}>Emily Davis</Text>
-                <Text style={styles.testimonialRole}>Speaker</Text>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-
-        {/* Newsletter */}
-        <View style={styles.newsletterSection}>
-          <Text style={styles.newsletterTitle}>Stay Updated</Text>
-          <Text style={styles.newsletterSubtitle}>
-            Subscribe to our newsletter for the latest events.
-          </Text>
-          {subscribed ? (
-            <Text style={styles.successMessage}>
-              Thank you for subscribing! 🎉
-            </Text>
-          ) : (
-            <View style={styles.newsletterForm}>
-              <Text style={styles.newsletterInput}>
-                Enter your email (Input Placeholder)
-              </Text>
-              <TouchableOpacity
-                style={styles.newsletterButton}
-                onPress={() => setSubscribed(true)}
-              >
-                <Text style={styles.newsletterButtonText}>Subscribe</Text>
+            {services.map((service, index) => (
+              <TouchableOpacity key={index} style={styles.serviceCard}>
+                <View style={styles.serviceImageContainer}>
+                  <Image
+                    source={{ uri: service.image }}
+                    style={styles.serviceImage}
+                    defaultSource={{ uri: "https://via.placeholder.com/150" }}
+                  />
+                  <LinearGradient
+                    colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.5)"]}
+                    style={styles.serviceOverlay}
+                  />
+                </View>
+                <View style={styles.serviceDetails}>
+                  <Text style={styles.serviceTitle}>{service.title}</Text>
+                  <Text style={styles.serviceDescription}>
+                    {service.description}
+                  </Text>
+                  <TouchableOpacity style={styles.serviceButton}>
+                    <Text style={styles.serviceButtonText}>Learn More</Text>
+                  </TouchableOpacity>
+                </View>
               </TouchableOpacity>
-            </View>
-          )}
+            ))}
+          </ScrollView>
         </View>
+
+        {/* Why Choose Us */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Why Choose Us</Text>
+          <View style={styles.whyChooseUsContainer}>
+            {whyChooseUs.map((item, index) => (
+              <View key={index} style={styles.whyChooseUsCard}>
+                <View style={styles.whyChooseUsIconContainer}>
+                  <Icon name={item.icon} size={30} color={COLORS.primary} />
+                </View>
+                <Text style={styles.whyChooseUsTitle}>{item.title}</Text>
+                <Text style={styles.whyChooseUsDescription}>
+                  {item.description}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {/* Our Community */}
+        <ImageBackground
+          source={{
+            uri: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          }}
+          style={styles.communitySection}
+        >
+          <LinearGradient
+            colors={["rgba(0, 0, 0, 0.7)", "rgba(0, 0, 0, 0.5)"]}
+            style={styles.communityOverlay}
+          />
+          <View style={styles.communityContent}>
+            <Text style={styles.communityTitle}>Join Our Community</Text>
+            <Text style={styles.communitySubtitle}>
+              Over 10,000 users have attended 500+ events with us. Be part of
+              the experience!
+            </Text>
+          </View>
+        </ImageBackground>
       </ScrollView>
 
       {/* Bottom Navigation Bar */}
@@ -377,19 +347,27 @@ const HomeScreen = () => {
         <View style={styles.tabContainer}>
           <TouchableOpacity
             style={styles.tab}
-            onPress={() => handleTabPress(0)}
+            onPress={() => handleTabPress(0, "Home")}
           >
-            <Animated.View style={{ transform: [{ scale: scaleValues[0] }] }}>
+            <Animated.View
+              style={{ transform: [{ scale: scaleValues[0] }], zIndex: 1 }}
+            >
               <Icon
                 name={selectedTab === 0 ? "home" : "home-outline"}
                 size={24}
-                color={selectedTab === 0 ? "#a855f7" : "#d1d5db"}
+                color={
+                  selectedTab === 0 ? COLORS.secondary : COLORS.textSecondary
+                }
               />
             </Animated.View>
             <Text
               style={[
                 styles.tabLabel,
-                { color: selectedTab === 0 ? "#a855f7" : "#d1d5db" },
+                {
+                  color:
+                    selectedTab === 0 ? COLORS.secondary : COLORS.textSecondary,
+                  zIndex: 1,
+                },
               ]}
             >
               Home
@@ -398,70 +376,97 @@ const HomeScreen = () => {
 
           <TouchableOpacity
             style={styles.tab}
-            onPress={() => handleTabPress(1)}
+            onPress={() => handleTabPress(1, "Event")}
           >
-            <Animated.View style={{ transform: [{ scale: scaleValues[1] }] }}>
+            <Animated.View
+              style={{ transform: [{ scale: scaleValues[1] }], zIndex: 1 }}
+            >
               <Icon
-                name={selectedTab === 1 ? "search" : "search-outline"}
+                name={selectedTab === 1 ? "calendar" : "calendar-outline"}
                 size={24}
-                color={selectedTab === 1 ? "#a855f7" : "#d1d5db"}
+                color={
+                  selectedTab === 1 ? COLORS.secondary : COLORS.textSecondary
+                }
               />
             </Animated.View>
             <Text
               style={[
                 styles.tabLabel,
-                { color: selectedTab === 1 ? "#a855f7" : "#d1d5db" },
+                {
+                  color:
+                    selectedTab === 1 ? COLORS.secondary : COLORS.textSecondary,
+                  zIndex: 1,
+                },
               ]}
             >
-              Search
+              Events
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.tab}
-            onPress={() => handleTabPress(2)}
+            onPress={() => handleTabPress(2, "Services")}
           >
-            <Animated.View style={{ transform: [{ scale: scaleValues[2] }] }}>
+            <Animated.View
+              style={{ transform: [{ scale: scaleValues[2] }], zIndex: 1 }}
+            >
               <Icon
-                name={selectedTab === 2 ? "cart" : "cart-outline"}
+                name={selectedTab === 2 ? "briefcase" : "briefcase-outline"}
                 size={24}
-                color={selectedTab === 2 ? "#a855f7" : "#d1d5db"}
+                color={
+                  selectedTab === 2 ? COLORS.secondary : COLORS.textSecondary
+                }
               />
             </Animated.View>
             <Text
               style={[
                 styles.tabLabel,
-                { color: selectedTab === 2 ? "#a855f7" : "#d1d5db" },
+                {
+                  color:
+                    selectedTab === 2 ? COLORS.secondary : COLORS.textSecondary,
+                  zIndex: 1,
+                },
               ]}
             >
-              Cart
+              Services
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.tab}
+            onPress={() => handleTabPress(3, "User")}
+          >
+            <Animated.View
+              style={{ transform: [{ scale: scaleValues[3] }], zIndex: 1 }}
+            >
+              <Icon
+                name={selectedTab === 3 ? "person" : "person-outline"}
+                size={24}
+                color={
+                  selectedTab === 3 ? COLORS.secondary : COLORS.textSecondary
+                }
+              />
+            </Animated.View>
+            <Text
+              style={[
+                styles.tabLabel,
+                {
+                  color:
+                    selectedTab === 3 ? COLORS.secondary : COLORS.textSecondary,
+                  zIndex: 1,
+                },
+              ]}
+            >
+              Profile
             </Text>
           </TouchableOpacity>
         </View>
-
-        {/* الأنيميشن للدائرة اللي بتتحرك تحت الأيقونة */}
-        <Animated.View
-          style={{
-            width: TAB_WIDTH,
-            height: 4,
-            backgroundColor: "#a855f7",
-            position: "absolute",
-            bottom: 66,
-            left: 0,
-            transform: [{ translateX: tabOffsetValue }],
-            borderRadius: 2,
-            shadowColor: "#a855f7",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            elevation: 5,
-          }}
-        />
       </View>
     </View>
   );
 };
 
+// Styles
 const COLORS = {
   primary: "#6366f1",
   secondary: "#a855f7",
@@ -483,36 +488,41 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   headerContent: {
-    padding: 20,
+    padding: 35,
     alignItems: "center",
     width: "100%",
   },
   headerTitle: {
-    fontSize: 32,
-    fontWeight: "800",
-    color: "#ffffff",
+    fontSize: 30,
+    fontWeight: "700",
+    color: COLORS.bgWhite,
     marginBottom: 10,
     textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 8,
   },
   headerSlogan: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "500",
-    color: "#ffffff",
+    color: COLORS.bgWhite,
     opacity: 0.9,
     textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.3)",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 5,
   },
   scrollContent: {
-    paddingBottom: 80, // مساحة للـ Bottom Navigation Bar
+    paddingBottom: 100,
   },
   section: {
     paddingVertical: 20,
-    backgroundColor: COLORS.bgLight, // خلفية رمادي فاتح للـ Sliders
+    backgroundColor: COLORS.bgLight,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "700",
     color: COLORS.textPrimary,
     marginBottom: 20,
@@ -521,15 +531,12 @@ const styles = StyleSheet.create({
   sliderContent: {
     paddingHorizontal: 20,
   },
-  eventGrid: {
-    flexDirection: "row",
-    gap: 15,
-  },
   eventCard: {
-    width: width * 0.7,
-    backgroundColor: "#ffffff",
+    width: width * 0.75,
+    backgroundColor: COLORS.bgWhite,
     borderRadius: 20,
     overflow: "hidden",
+    marginRight: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -538,7 +545,7 @@ const styles = StyleSheet.create({
   },
   eventImageContainer: {
     position: "relative",
-    height: 150,
+    height: 160,
   },
   eventImage: {
     width: "100%",
@@ -547,14 +554,14 @@ const styles = StyleSheet.create({
   },
   eventOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   eventDate: {
     position: "absolute",
     top: 10,
     right: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    padding: 5,
+    backgroundColor: COLORS.bgWhite,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -574,7 +581,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: COLORS.textPrimary,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   eventInfo: {
     flexDirection: "row",
@@ -591,15 +598,10 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     marginBottom: 15,
   },
-  eventActions: {
-    flexDirection: "row",
-    gap: 10,
-    alignItems: "center",
-  },
-  detailsButton: {
-    flex: 1,
+  eventButton: {
     backgroundColor: COLORS.primary,
-    padding: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 50,
     alignItems: "center",
     shadowColor: "#000",
@@ -608,30 +610,17 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
-  detailsButtonText: {
+  eventButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#ffffff",
-  },
-  calendarButton: {
-    backgroundColor: COLORS.secondary,
-    padding: 12,
-    borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  serviceGrid: {
-    flexDirection: "row",
-    gap: 15,
+    color: COLORS.bgWhite,
   },
   serviceCard: {
-    width: width * 0.7,
-    backgroundColor: "#ffffff",
+    width: width * 0.75,
+    backgroundColor: COLORS.bgWhite,
     borderRadius: 20,
     overflow: "hidden",
+    marginRight: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -640,7 +629,7 @@ const styles = StyleSheet.create({
   },
   serviceImageContainer: {
     position: "relative",
-    height: 150,
+    height: 160,
   },
   serviceImage: {
     width: "100%",
@@ -649,7 +638,6 @@ const styles = StyleSheet.create({
   },
   serviceOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   serviceDetails: {
     padding: 15,
@@ -658,7 +646,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: COLORS.textPrimary,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   serviceDescription: {
     fontSize: 14,
@@ -666,8 +654,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   serviceButton: {
-    backgroundColor: COLORS.primary,
-    padding: 12,
+    backgroundColor: COLORS.secondary,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 50,
     alignItems: "center",
     shadowColor: "#000",
@@ -679,123 +668,94 @@ const styles = StyleSheet.create({
   serviceButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#ffffff",
+    color: COLORS.bgWhite,
   },
-  testimonialGrid: {
+  whyChooseUsContainer: {
+    paddingHorizontal: 20,
     flexDirection: "row",
-    gap: 15,
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
-  testimonialCard: {
-    width: width * 0.7,
-    backgroundColor: "#ffffff",
-    padding: 20,
-    borderRadius: 20,
+  whyChooseUsCard: {
+    width: (width - 60) / 2,
+    backgroundColor: COLORS.bgWhite,
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 15,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: "rgba(99, 102, 241, 0.1)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
-  testimonialImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  whyChooseUsIconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: COLORS.bgLight,
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
-    borderWidth: 2,
-    borderColor: COLORS.primary,
   },
-  stars: {
+  whyChooseUsTitle: {
     fontSize: 16,
-    color: "#fbbf24",
-    marginBottom: 10,
+    fontWeight: "600",
+    color: COLORS.textPrimary,
+    marginBottom: 5,
+    textAlign: "center",
   },
-  testimonialText: {
+  whyChooseUsDescription: {
     fontSize: 14,
     color: COLORS.textSecondary,
     textAlign: "center",
-    marginBottom: 10,
-    fontStyle: "italic",
   },
-  testimonialAuthor: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: COLORS.textPrimary,
-  },
-  testimonialRole: {
-    fontSize: 12,
-    color: COLORS.textSecondary,
-  },
-  newsletterSection: {
-    padding: 20,
-    backgroundColor: COLORS.primary,
+  communitySection: {
+    padding: 30,
     alignItems: "center",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    height: 200,
   },
-  newsletterTitle: {
-    fontSize: 24,
+  communityOverlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  communityContent: {
+    alignItems: "center",
+  },
+  communityTitle: {
+    fontSize: 26,
     fontWeight: "700",
-    color: "#ffffff",
+    color: COLORS.bgWhite,
     marginBottom: 10,
   },
-  newsletterSubtitle: {
+  communitySubtitle: {
     fontSize: 16,
-    color: "#ffffff",
+    color: COLORS.bgWhite,
     opacity: 0.9,
-    marginBottom: 20,
     textAlign: "center",
   },
-  newsletterForm: {
-    width: width * 0.9,
-    backgroundColor: "#ffffff",
-    borderRadius: 50,
-    padding: 5,
+  pagination: {
     flexDirection: "row",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
+    justifyContent: "center",
+    marginTop: 10,
   },
-  newsletterInput: {
-    flex: 1,
-    padding: 12,
-    fontSize: 16,
-    color: COLORS.textPrimary,
-  },
-  newsletterButton: {
-    backgroundColor: COLORS.secondary,
-    padding: 12,
-    borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  newsletterButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#ffffff",
-  },
-  successMessage: {
-    fontSize: 16,
-    color: "#ffffff",
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
   },
   bottomNav: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#ffffff", // خلفية بيضاء
+    backgroundColor: COLORS.bgWhite,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: 70,
-    paddingBottom: 10,
+    height: 80,
+    paddingBottom: 5,
     paddingTop: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -2 },
@@ -807,6 +767,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+    height: "100%",
   },
   tab: {
     flex: 1,
@@ -815,8 +776,8 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: 12,
-    fontWeight: "600",
-    marginTop: 5,
+    fontWeight: "500",
+    marginTop: 4,
   },
 });
 

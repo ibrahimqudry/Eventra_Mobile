@@ -12,11 +12,12 @@ const EventDetails= () => {
   ];
 
   const sponsors = [
-    { id: 1, image: require('./assets/logo1.png') },
-    { id: 2, image: require('./assets/logo2.png') },
-    { id: 3, image: require('./assets/logo3.png') },
-    { id: 4, image: require('./assets/logo4.png') },
-    { id: 5, image: require('./assets/logo5.png') },
+    { id: 1, image: require('../assets/logo.png') },
+    { id: 2, image: require('../assets/logo1.png') },
+    { id: 3, image: require('../assets/logo2.png') },
+    { id: 4, image: require('../assets/logo3.png') },
+    { id: 5, image: require('../assets/logo4.png') },
+    { id: 6, image: require('../assets/logo5.png') },
   ];
 
   const previousEvents = [
@@ -116,9 +117,9 @@ const EventDetails= () => {
 
         {/* Event Info */}
         <View style={styles.eventInfo}>
-          <InfoItem icon="map-marker-alt" title="Location" value="Cairo International Convention Center" />
-          <InfoItem icon="calendar-alt" title="Date" value="April 15, 2025" />
-          <InfoItem icon="clock" title="Time" value="9:00 AM - 5:00 PM" />
+          <InfoItem icon="map-marker" title="Location" value="Cairo International Convention Center" />
+          <InfoItem icon="calendar" title="Date" value="April 15, 2025" />
+          <InfoItem icon="clock-o" title="Time" value="9:00 AM - 5:00 PM"/>
           <InfoItem icon="users" title="Capacity" value="500 Attendees" />
           <InfoItem icon="hourglass-half" title="Purchase Deadline" value="Till 1 April, 2025" />
         </View>
@@ -140,15 +141,19 @@ const EventDetails= () => {
 
         {/* Sponsors Section */}
         <View style={styles.sponsorsSection}>
-          <Text style={styles.sectionTitle}>Event Sponsors</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.sponsorsScroll}>
-            {sponsors.map((sponsor) => (
-              <View key={sponsor.id} style={styles.sponsor}>
-                <Image source={{ uri: sponsor.uri }} style={styles.sponsorImage} />
-              </View>
-            ))}
-          </ScrollView>
-        </View>
+  <Text style={styles.sectionTitle}>Event Sponsors</Text>
+  <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.sponsorsScroll}>
+    {sponsors.map((sponsor) => (
+      <View key={sponsor.id} style={styles.sponsor}>
+        {sponsor.uri ? (
+          <Image source={{ uri: sponsor.uri }} style={styles.sponsorImage} />
+        ) : (
+          <Image source={sponsor.image} style={styles.sponsorImage} />
+        )}
+      </View>
+    ))}
+  </ScrollView>
+</View>
 
         {/* Previous Events */}
         <View style={styles.previousEvents}>
@@ -246,7 +251,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f3f4f6',
-    paddingTop: 20,
+    paddingTop: 40,
   },
   slideshowContainer: {
     height: 250,
@@ -382,7 +387,7 @@ const styles = StyleSheet.create({
   },
   sponsorImage: {
     width: 100,
-    height: 60,
+    height: 100,
     resizeMode: 'contain',
   },
   previousEvents: {

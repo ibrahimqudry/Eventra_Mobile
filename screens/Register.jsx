@@ -84,7 +84,7 @@ export default function RegisterScreen({ navigation }) {
         <Animated.View style={[styles.toggleContainer, { opacity: fadeAnim }]}>
           <TouchableOpacity
             style={styles.toggleButton}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("login")}
           >
             <Text style={[styles.toggleText, { color: COLORS.textSecondary }]}>
               Log In

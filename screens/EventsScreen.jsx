@@ -400,7 +400,7 @@ const EventsScreen = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.tab}
-            onPress={() => handleTabPress(3, "Profile")}
+            onPress={() => handleTabPress(3, "user")}
           >
             <Animated.View
               style={{ transform: [{ scale: scaleValues[3] }], zIndex: 1 }}

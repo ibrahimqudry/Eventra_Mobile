@@ -103,7 +103,7 @@ const EventDetails= () => {
             end={{ x: 1, y: 0 }}
             style={styles.gradientTextContainer}
           >
-            <Text style={styles.eventTitle}>Tech Summit 2024</Text>
+            <Text style={styles.eventTitle}>Tech Summit 2025</Text>
           </LinearGradient>
           <View style={styles.eventMeta}>
             <View style={styles.category}>
@@ -160,7 +160,9 @@ const EventDetails= () => {
           <Text style={styles.sectionTitle}>Previous Events</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {previousEvents.map((event) => (
+               <TouchableOpacity style={styles.previousEvents} onPress={() => navigation.navigate("CustomerReviews")}>
               <EventCard key={event.id} event={event} />
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
@@ -245,13 +247,14 @@ const TicketCard = ({ ticket }) => {
       </View>
     </View>
   );
+  
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f3f4f6',
-    paddingTop: 40,
+    paddingTop: 30,
   },
   slideshowContainer: {
     height: 250,

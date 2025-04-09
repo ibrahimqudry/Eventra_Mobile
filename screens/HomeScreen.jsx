@@ -480,6 +480,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.bgWhite,
+    paddingTop: 30,
   },
   header: {
     height: 200,

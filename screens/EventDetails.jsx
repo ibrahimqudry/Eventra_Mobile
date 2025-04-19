@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
@@ -9,100 +8,98 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
-  Pressable,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import {
-  MaterialIcons,
-  FontAwesome,
-  FontAwesome5,
-  Ionicons,
-} from "@expo/vector-icons";
+  Pressable
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialIcons, FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
+
+// Constants
+const COLORS = {
+  primary: "#6366f1",
+  secondary: "#a855f7",
+  textPrimary: "#1f2937",
+  textSecondary: "#4b5563",
+  bgLight: "#f3f4f6",
+  bgWhite: "#ffffff",
+  success: "#22c55e",
+  warning: "#ff9800",
+  danger: "#f44336",
+  border: "#e5e7eb",
+};
+
+const SPACING = {
+  tiny: 4,
+  small: 8,
+  medium: 16,
+  large: 24,
+  xLarge: 32,
+};
 
 const EventDetails = ({ navigation }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPressed, setIsPressed] = useState(false);
+  
   const eventImages = [
-    {
-      uri: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    },
-    {
-      uri: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    },
-    {
-      uri: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80",
-    },
+    { uri: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80' },
+    { uri: 'https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80' },
+    { uri: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80' }
   ];
 
   const sponsors = [
-    { id: 1, image: require("../assets/logo.png") },
-    { id: 2, image: require("../assets/logo1.png") },
-    { id: 3, image: require("../assets/logo2.png") },
-    { id: 4, image: require("../assets/logo3.png") },
-    { id: 5, image: require("../assets/logo4.png") },
-    { id: 6, image: require("../assets/logo5.png") },
+    { id: 1, image: require('../assets/logo.png') },
+    { id: 2, image: require('../assets/logo1.png') },
+    { id: 3, image: require('../assets/logo2.png') },
+    { id: 4, image: require('../assets/logo3.png') },
+    { id: 5, image: require('../assets/logo4.png') },
+    { id: 6, image: require('../assets/logo5.png') },
   ];
 
   const previousEvents = [
-    {
-      id: 1,
-      title: "Tech Summit 2023",
-      description: "A look back at last year's success",
-      uri: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    },
-    {
-      id: 2,
-      title: "Tech Summit 2022",
-      description: "Innovation meets technology",
-      uri: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80",
-    },
-    {
-      id: 3,
-      title: "Tech Summit 2021",
-      description: "Where ideas come to life",
-      uri: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    },
+    { id: 1, title: 'Tech Summit 2023', description: 'A look back at last year\'s success', uri: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80' },
+    { id: 2, title: 'Tech Summit 2022', description: 'Innovation meets technology', uri: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80' },
+    { id: 3, title: 'Tech Summit 2021', description: 'Where ideas come to life', uri: 'https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80' },
   ];
 
   const tickets = [
-    {
-      id: 1,
-      type: "Standard",
-      price: 100,
+    { 
+      id: 1, 
+      type: 'Standard', 
+      price: 100, 
       features: [
-        "Full Conference Access",
-        "Workshop Materials",
-        "Lunch & Refreshments",
+        'Full Conference Access',
+        'Workshop Materials',
+        'Lunch & Refreshments'
       ],
-      seating: "Standard Seating",
+      seating: 'Standard Seating'
     },
-    {
-      id: 2,
-      type: "Early Bird",
-      price: 200,
+    { 
+      id: 2, 
+      type: 'Early Bird', 
+      price: 200, 
       features: [
-        "Full Conference Access",
-        "Workshop Materials",
-        "Lunch & Refreshments",
-        "Networking Session",
+        'Full Conference Access',
+        'Workshop Materials',
+        'Lunch & Refreshments',
+        'Networking Session'
       ],
-      seating: "Premium Seating",
+      seating: 'Premium Seating'
     },
-    {
-      id: 3,
-      type: "VIP",
-      price: 300,
+    { 
+      id: 3, 
+      type: 'VIP', 
+      price: 300, 
       features: [
-        "Full Conference Access",
-        "Workshop Materials",
-        "Lunch & Refreshments",
-        "Networking Session",
-        "VIP Lounge Access",
-        "Private Meeting Room",
+        'Full Conference Access',
+        'Workshop Materials',
+        'Lunch & Refreshments',
+        'Networking Session',
+        'VIP Lounge Access',
+        'Private Meeting Room'
       ],
-      seating: "VIP Seating",
-    },
+      seating: 'VIP Seating'
+    }
   ];
 
   useEffect(() => {
@@ -117,9 +114,7 @@ const EventDetails = ({ navigation }) => {
   };
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + eventImages.length) % eventImages.length
-    );
+    setCurrentSlide((prev) => (prev - 1 + eventImages.length) % eventImages.length);
   };
 
   return (
@@ -136,14 +131,20 @@ const EventDetails = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Event Gallery */}
         <View style={styles.slideshowContainer}>
-          <Image
-            source={{ uri: eventImages[currentSlide].uri }}
-            style={styles.slideImage}
-          />
+          <Image source={{ uri: eventImages[currentSlide].uri }} style={styles.slideImage} />
           <LinearGradient
             colors={["rgba(0, 0, 0, 0.3)", "transparent"]}
             style={styles.slideOverlay}
           />
+          
+          {/* Navigation Buttons */}
+          <TouchableOpacity style={[styles.navBtn, styles.prevBtn]} onPress={prevSlide}>
+            <MaterialIcons name="chevron-left" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.navBtn, styles.nextBtn]} onPress={nextSlide}>
+            <MaterialIcons name="chevron-right" size={24} color="white" />
+          </TouchableOpacity>
+          
           {/* Dots Indicator */}
           <View style={styles.dotsContainer}>
             {eventImages.map((_, index) => (
@@ -151,9 +152,7 @@ const EventDetails = ({ navigation }) => {
                 key={index}
                 style={[
                   styles.dot,
-                  currentSlide === index
-                    ? styles.activeDot
-                    : styles.inactiveDot,
+                  currentSlide === index ? styles.activeDot : styles.inactiveDot
                 ]}
               />
             ))}
@@ -183,47 +182,32 @@ const EventDetails = ({ navigation }) => {
 
           {/* Event Info */}
           <View style={styles.eventInfo}>
-            <InfoItem
-              icon="map-marker"
-              title="Location"
-              value="Cairo International Convention Center"
-            />
+            <InfoItem icon="map-marker" title="Location" value="Cairo International Convention Center" />
             <InfoItem icon="calendar" title="Date" value="April 15, 2025" />
-            <InfoItem icon="clock-o" title="Time" value="9:00 AM - 5:00 PM" />
+            <InfoItem icon="clock-o" title="Time" value="9:00 AM - 5:00 PM"/>
             <InfoItem icon="users" title="Capacity" value="500 Attendees" />
-            <InfoItem
-              icon="hourglass-half"
-              title="Purchase Deadline"
-              value="Till 1 April, 2025"
-            />
+            <InfoItem icon="hourglass-half" title="Purchase Deadline" value="Till 1 April, 2025" />
           </View>
 
           {/* Event Description */}
           <View style={styles.eventDescription}>
             <Text style={styles.sectionTitle}>About The Event</Text>
             <Text style={styles.descriptionText}>
-              Join us for the biggest tech conference of the year! Tech Summit
-              2024 brings together industry leaders, innovators, and tech
-              enthusiasts for an unforgettable day of learning, networking, and
+              Join us for the biggest tech conference of the year! Tech Summit 2024 brings together industry
+              leaders, innovators, and tech enthusiasts for an unforgettable day of learning, networking, and
               inspiration.
             </Text>
             <Text style={styles.descriptionText}>
-              Experience keynote speeches from renowned speakers, interactive
-              workshops, and cutting-edge product demonstrations. Whether you're
-              a developer, entrepreneur, or tech enthusiast, this event is
-              designed to help you stay ahead in the rapidly evolving tech
-              landscape.
+              Experience keynote speeches from renowned speakers, interactive workshops, and cutting-edge product
+              demonstrations. Whether you're a developer, entrepreneur, or tech enthusiast, this event is designed
+              to help you stay ahead in the rapidly evolving tech landscape.
             </Text>
           </View>
 
           {/* Sponsors Section */}
           <View style={styles.sponsorsSection}>
             <Text style={styles.sectionTitle}>Event Sponsors</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.sponsorsScroll}
-            >
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.sponsorsScroll}>
               {sponsors.map((sponsor) => (
                 <View key={sponsor.id} style={styles.sponsor}>
                   <Image source={sponsor.image} style={styles.sponsorImage} />
@@ -237,7 +221,20 @@ const EventDetails = ({ navigation }) => {
             <Text style={styles.sectionTitle}>Previous Events</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {previousEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+                <TouchableOpacity 
+                  key={event.id} 
+                  style={styles.eventCard} 
+                  onPress={() => navigation.navigate("PreviousEventPage")}
+                >
+                  <Image source={{ uri: event.uri }} style={styles.eventCardImage} />
+                  <LinearGradient
+                    colors={["rgba(0, 0, 0, 0.7)", "transparent"]}
+                    style={styles.eventCardOverlay}
+                  >
+                    <Text style={styles.eventCardTitle}>{event.title}</Text>
+                    <Text style={styles.eventCardDescription}>{event.description}</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
@@ -274,24 +271,9 @@ const InfoItem = ({ icon, title, value }) => {
   );
 };
 
-const EventCard = ({ event }) => {
-  return (
-    <View style={styles.eventCard}>
-      <Image source={{ uri: event.uri }} style={styles.eventCardImage} />
-      <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.8)"]}
-        style={styles.eventCardOverlay}
-      >
-        <Text style={styles.eventCardTitle}>{event.title}</Text>
-        <Text style={styles.eventCardDescription}>{event.description}</Text>
-      </LinearGradient>
-    </View>
-  );
-};
-
 const TicketCard = ({ ticket }) => {
   const [isPressed, setIsPressed] = useState(false);
-
+  
   return (
     <View style={styles.ticket}>
       <LinearGradient
@@ -303,58 +285,35 @@ const TicketCard = ({ ticket }) => {
         <Text style={styles.ticketType}>{ticket.type}</Text>
         <Text style={styles.ticketPrice}>${ticket.price}</Text>
       </LinearGradient>
+      
       <View style={styles.ticketBody}>
         <View style={styles.ticketDetails}>
           <View style={styles.detailItem}>
-            <FontAwesome5 name="chair" size={16} color={COLORS.primary} />
+            <FontAwesome5 name="chair" size={16} color={COLORS.textPrimary} />
             <Text style={styles.detailText}>{ticket.seating}</Text>
           </View>
         </View>
+        
         <View style={styles.ticketFeatures}>
           {ticket.features.map((feature, index) => (
             <View key={index} style={styles.featureItem}>
-              <FontAwesome name="check" size={16} color={COLORS.success} />
+              <FontAwesome name="check-circle" size={16} color={COLORS.success} />
               <Text style={styles.featureText}>{feature}</Text>
             </View>
           ))}
         </View>
+        
         <Pressable
           onPressIn={() => setIsPressed(true)}
           onPressOut={() => setIsPressed(false)}
           style={[styles.ticketButton, isPressed && styles.ticketButtonPressed]}
         >
           <Text style={styles.ticketButtonText}>Buy Now</Text>
-          <MaterialIcons
-            name="arrow-forward"
-            size={16}
-            color={COLORS.bgWhite}
-          />
+          <MaterialIcons name="arrow-forward" size={16} color={COLORS.bgWhite} />
         </Pressable>
       </View>
     </View>
   );
-};
-
-// Constants
-const COLORS = {
-  primary: "#6366f1",
-  secondary: "#a855f7",
-  textPrimary: "#1f2937",
-  textSecondary: "#4b5563",
-  bgLight: "#f3f4f6",
-  bgWhite: "#ffffff",
-  success: "#22c55e",
-  warning: "#ff9800",
-  danger: "#f44336",
-  border: "#e5e7eb",
-};
-
-const SPACING = {
-  tiny: 4,
-  small: 8,
-  medium: 16,
-  large: 24,
-  xLarge: 32,
 };
 
 const styles = StyleSheet.create({
@@ -363,9 +322,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgLight,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: SPACING.medium,
     paddingVertical: SPACING.small,
     backgroundColor: COLORS.bgWhite,
@@ -374,7 +333,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: '600',
     color: COLORS.textPrimary,
   },
   scrollContent: {
@@ -383,29 +342,29 @@ const styles = StyleSheet.create({
   slideshowContainer: {
     height: 250,
     borderRadius: 20,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginHorizontal: SPACING.medium,
     marginBottom: SPACING.medium,
-    position: "relative",
+    position: 'relative',
   },
   slideImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   slideOverlay: {
     ...StyleSheet.absoluteFillObject,
   },
   navBtn: {
-    position: "absolute",
-    top: "50%",
+    position: 'absolute',
+    top: '50%',
     transform: [{ translateY: -25 }],
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   prevBtn: {
     left: SPACING.small,
@@ -414,13 +373,13 @@ const styles = StyleSheet.create({
     right: SPACING.small,
   },
   dotsContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: SPACING.small,
     left: 0,
     right: 0,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dot: {
     width: 8,
@@ -432,7 +391,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgWhite,
   },
   inactiveDot: {
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
   eventDetails: {
     backgroundColor: COLORS.bgWhite,
@@ -440,7 +399,7 @@ const styles = StyleSheet.create({
     padding: SPACING.medium,
     marginHorizontal: SPACING.medium,
     marginBottom: SPACING.medium,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
@@ -448,7 +407,7 @@ const styles = StyleSheet.create({
   },
   eventHeader: {
     marginBottom: SPACING.medium,
-    alignItems: "center",
+    alignItems: 'center',
   },
   gradientTextContainer: {
     borderRadius: 10,
@@ -458,34 +417,34 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 24,
-    fontWeight: "700",
+    fontWeight: '700',
     color: COLORS.bgWhite,
-    textAlign: "center",
+    textAlign: 'center',
   },
   eventMeta: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: SPACING.small,
   },
   category: {
-    backgroundColor: "rgba(99, 102, 241, 0.1)",
+    backgroundColor: 'rgba(99, 102, 241, 0.1)',
     paddingHorizontal: SPACING.medium,
     paddingVertical: SPACING.tiny,
     borderRadius: 20,
   },
   categoryText: {
     color: COLORS.primary,
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 14,
   },
   status: {
-    backgroundColor: "rgba(168, 85, 247, 0.1)",
+    backgroundColor: 'rgba(168, 85, 247, 0.1)',
     paddingHorizontal: SPACING.medium,
     paddingVertical: SPACING.tiny,
     borderRadius: 20,
   },
   statusText: {
     color: COLORS.secondary,
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 14,
   },
   eventInfo: {
@@ -496,23 +455,23 @@ const styles = StyleSheet.create({
     gap: SPACING.medium,
   },
   infoItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: SPACING.small,
   },
   infoIcon: {
     width: 40,
     height: 40,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   infoTextContainer: {
     flex: 1,
   },
   infoTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
     color: COLORS.textPrimary,
     marginBottom: SPACING.tiny,
   },
@@ -525,10 +484,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
     color: COLORS.textPrimary,
     marginBottom: SPACING.medium,
-    textAlign: "center",
+    textAlign: 'center',
   },
   descriptionText: {
     color: COLORS.textSecondary,
@@ -544,13 +503,13 @@ const styles = StyleSheet.create({
   },
   sponsor: {
     marginRight: SPACING.medium,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   sponsorImage: {
     width: 80,
     height: 80,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
   previousEvents: {
     marginBottom: SPACING.large,
@@ -559,17 +518,17 @@ const styles = StyleSheet.create({
     width: width * 0.7,
     height: 180,
     borderRadius: 15,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginRight: SPACING.medium,
-    position: "relative",
+    position: 'relative',
   },
   eventCardImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   eventCardOverlay: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
@@ -577,13 +536,13 @@ const styles = StyleSheet.create({
   },
   eventCardTitle: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     color: COLORS.bgWhite,
     marginBottom: SPACING.tiny,
   },
   eventCardDescription: {
     fontSize: 14,
-    color: "rgba(255,255,255,0.9)",
+    color: 'rgba(255,255,255,0.9)',
   },
   ticketsSection: {
     marginBottom: SPACING.large,
@@ -591,9 +550,9 @@ const styles = StyleSheet.create({
   ticket: {
     backgroundColor: COLORS.bgWhite,
     borderRadius: 20,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginBottom: SPACING.medium,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
@@ -601,17 +560,17 @@ const styles = StyleSheet.create({
   },
   ticketHeader: {
     padding: SPACING.medium,
-    alignItems: "center",
+    alignItems: 'center',
   },
   ticketType: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     color: COLORS.bgWhite,
     marginBottom: SPACING.small,
   },
   ticketPrice: {
     fontSize: 28,
-    fontWeight: "700",
+    fontWeight: '700',
     color: COLORS.bgWhite,
   },
   ticketBody: {
@@ -621,25 +580,25 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.medium,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
-    borderStyle: "dashed",
+    borderStyle: 'dashed',
     paddingBottom: SPACING.medium,
   },
   detailItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: SPACING.small,
   },
   detailText: {
     color: COLORS.textPrimary,
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 14,
   },
   ticketFeatures: {
     marginBottom: SPACING.medium,
   },
   featureItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: SPACING.small,
     paddingVertical: SPACING.tiny,
   },
@@ -651,9 +610,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     padding: SPACING.medium,
     borderRadius: 25,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: SPACING.small,
   },
   ticketButtonPressed: {
@@ -661,7 +620,7 @@ const styles = StyleSheet.create({
   },
   ticketButtonText: {
     color: COLORS.bgWhite,
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 16,
   },
 });

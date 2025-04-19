@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const UserDashboard = ({ navigation }) => {
+
   return (
     <View style={styles.container}>
       {/* Gradient Background */}
@@ -11,6 +12,7 @@ const UserDashboard = ({ navigation }) => {
         {/* Profile Section */}
         <View style={styles.profileContainer}>
           <Image source={{ uri: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436180.jpg?w=900" }} style={styles.avatar} />
+
           <Text style={styles.userName}>Mariam Ahmed</Text>
         </View>
       </LinearGradient>
@@ -30,6 +32,7 @@ const UserDashboard = ({ navigation }) => {
           <MenuItem label="Community Room" icon="chatbubble-ellipses-outline" />
           <MenuItem label="Help/Support" icon="call-outline" />
           <MenuItem label="Logout" icon="exit-outline" />
+
         </View>
       </ScrollView>
     </View>
@@ -39,6 +42,7 @@ const UserDashboard = ({ navigation }) => {
 // تحديث `MenuItem` ليمرر `onPress`
 const MenuItem = ({ label, icon, onPress }) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
+
     <Icon name={icon} size={20} color="#555" />
     <Text style={styles.menuText}>{label}</Text>
     <Icon name="chevron-forward" size={20} color="#aaa" />

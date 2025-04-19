@@ -19,12 +19,12 @@ import {
   TextInput,
   Modal,
   Pressable,
+  FlatList,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import { addEvent, removeEvent } from "../redux/savedEventsSlice";
-import { FlatList } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 // import { db } from "../firebase"; // Import Firestore
 
@@ -34,6 +34,7 @@ const TAB_WIDTH = width / 4;
 const EventsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const savedEvents = useSelector((state) => state.savedEvents.savedEvents);
+  const [isLoadMorePressed, setIsLoadMorePressed] = useState(false);
 
   // State for events fetched from Firestore
   const [events, setEvents] = useState([]);
@@ -123,6 +124,57 @@ const EventsScreen = ({ navigation }) => {
   const handleSearchQuery = (query) => {
     setFilters((prev) => ({ ...prev, searchQuery: query }));
   };
+
+  // Animations
+  const scaleValues = useRef(
+    [0, 0, 0, 0].map(() => new Animated.Value(1))
+  ).current;
+  const heroTitleOpacity = useRef(new Animated.Value(0)).current;
+  const heroTextOpacity = useRef(new Animated.Value(0)).current;
+  const heroTranslateY = useRef(new Animated.Value(-50)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(heroTitleOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(heroTextOpacity, {
+        toValue: 1,
+        duration: 800,
+        delay: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(heroTranslateY, {
+        toValue: 0,
+        duration: 1000,
+        easing: Easing.out(Easing.exp),
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
+  const handleTabPress = useCallback(
+    (index, screenName) => {
+      setSelectedTab(index);
+      Animated.parallel([
+        ...scaleValues.map((scale, i) =>
+          Animated.timing(scale, {
+            toValue: i === index ? 1.2 : 1,
+            duration: 300,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          })
+        ),
+      ]).start();
+
+      if (screenName) {
+        navigation.navigate(screenName);
+      }
+    },
+    [scaleValues, navigation]
+  );
 
   // Dynamically generate filter options from events
   const categories = useMemo(() => {
@@ -229,56 +281,6 @@ const EventsScreen = ({ navigation }) => {
         console.error("Error adding event: ", error);
       });
   };
-
-  const scaleValues = useRef(
-    [0, 0, 0, 0].map(() => new Animated.Value(1))
-  ).current;
-  const heroTitleOpacity = useRef(new Animated.Value(0)).current;
-  const heroTextOpacity = useRef(new Animated.Value(0)).current;
-  const heroTranslateY = useRef(new Animated.Value(-50)).current;
-
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(heroTitleOpacity, {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }),
-      Animated.timing(heroTextOpacity, {
-        toValue: 1,
-        duration: 800,
-        delay: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(heroTranslateY, {
-        toValue: 0,
-        duration: 1000,
-        easing: Easing.out(Easing.exp),
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, []);
-
-  const handleTabPress = useCallback(
-    (index, screenName) => {
-      setSelectedTab(index);
-      Animated.parallel([
-        ...scaleValues.map((scale, i) =>
-          Animated.timing(scale, {
-            toValue: i === index ? 1.2 : 1,
-            duration: 300,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          })
-        ),
-      ]).start();
-
-      if (screenName) {
-        navigation.navigate(screenName);
-      }
-    },
-    [scaleValues, navigation]
-  );
 
   if (loading) {
     return (
@@ -669,6 +671,27 @@ const EventsScreen = ({ navigation }) => {
           />
         )}
 
+        {/* Load More Button */}
+        <View style={styles.loadMore}>
+          <TouchableOpacity
+            style={[
+              styles.loadMoreBtn,
+              isLoadMorePressed && styles.loadMoreBtnPressed,
+            ]}
+            onPressIn={() => setIsLoadMorePressed(true)}
+            onPressOut={() => setIsLoadMorePressed(false)}
+          >
+            <Text
+              style={[
+                styles.loadMoreBtnText,
+                isLoadMorePressed && styles.loadMoreBtnTextPressed,
+              ]}
+            >
+              Load More Events
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Bottom Navigation Bar */}
         <View style={styles.bottomNav}>
           <View style={styles.tabContainer}>
@@ -808,24 +831,10 @@ const EventsScreen = ({ navigation }) => {
   );
 };
 
-const COLORS = {
-  primary: "#6366f1",
-  secondary: "#a855f7",
-  textPrimary: "#1f2937",
-  textSecondary: "#6b7280",
-  bgLight: "#f3f4f6",
-  bgWhite: "#ffffff",
-  success: "#4CAF50",
-  warning: "#ff9800",
-  danger: "#f44336",
-  border: "#e5e7eb",
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.bgLight,
-    paddingTop: 30,
   },
   hero: {
     height: 300,
@@ -999,7 +1008,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   eventCard: {
-    width: (width - 40) / 1,
+    width: (width - 48) / 2,
     backgroundColor: COLORS.bgWhite,
     borderRadius: 16,
     overflow: "hidden",
@@ -1011,7 +1020,7 @@ const styles = StyleSheet.create({
   },
   eventImageContainer: {
     position: "relative",
-    height: 200,
+    height: 120,
   },
   eventImage: {
     width: "100%",
@@ -1031,7 +1040,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   eventCategoryText: {
-    fontSize: 13,
+    fontSize: 11,
     color: COLORS.bgWhite,
     fontWeight: "500",
   },
@@ -1099,17 +1108,43 @@ const styles = StyleSheet.create({
   registerBtn: {
     borderRadius: 12,
     overflow: "hidden",
-    width: 130,
   },
   registerBtnGradient: {
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   registerBtnText: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "600",
     color: COLORS.bgWhite,
     textAlign: "center",
+  },
+  savedIcon: {
+    color: COLORS.primary,
+    marginLeft: 8,
+  },
+  loadMore: {
+    alignItems: "center",
+    marginVertical: 24,
+  },
+  loadMoreBtn: {
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  loadMoreBtnPressed: {
+    backgroundColor: COLORS.primary,
+  },
+  loadMoreBtnText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: COLORS.primary,
+    textAlign: "center",
+  },
+  loadMoreBtnTextPressed: {
+    color: COLORS.bgWhite,
   },
   bottomNav: {
     position: "absolute",
@@ -1143,10 +1178,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
     marginTop: 4,
-  },
-  savedIcon: {
-    color: COLORS.primary,
-    marginLeft: 8,
   },
 });
 

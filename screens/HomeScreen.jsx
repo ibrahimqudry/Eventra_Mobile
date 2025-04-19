@@ -246,6 +246,7 @@ const HomeScreen = ({ navigation }) => {
                     {event.description}
                   </Text>
                   <TouchableOpacity style={styles.eventButton} onPress={() => navigation.navigate("event-details")}>
+
                     <Text style={styles.eventButtonText}>View Details</Text>
                   </TouchableOpacity>
                 </View>
@@ -435,6 +436,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.tab}
             onPress={() => handleTabPress(3, "User")}
+
           >
             <Animated.View
               style={{ transform: [{ scale: scaleValues[3] }], zIndex: 1 }}

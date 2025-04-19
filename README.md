@@ -1,1 +1,0 @@
-# Eventra_Mobile

@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addEvent, removeEvent } from "../redux/savedEventsSlice";
 import { FlatList } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
-import { db } from "../firebase"; // Import Firestore
+// import { db } from "../firebase"; // Import Firestore
 
 const { width } = Dimensions.get("window");
 const TAB_WIDTH = width / 4;

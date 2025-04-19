@@ -160,7 +160,7 @@ const EventDetails= () => {
           <Text style={styles.sectionTitle}>Previous Events</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {previousEvents.map((event) => (
-               <TouchableOpacity style={styles.previousEvents} onPress={() => navigation.navigate("CustomerReviews")}>
+               <TouchableOpacity style={styles.previousEvents} onPress={() => navigation.navigate("PreviousEventPage")}>
               <EventCard key={event.id} event={event} />
               </TouchableOpacity>
             ))}

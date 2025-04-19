@@ -13,7 +13,7 @@ import NotificationsScreen from './screens/NotificationsScreen';
 import AccountSettings from './screens/AccountSettings';
 import { store } from './redux/store';
 import SavedEventsScreen from './screens/SavedEventsScreen';
-import CustomerReviews from './screens/CustomerReviews';
+import PreviousEventPage from './screens/PreviousEventPage';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
         <Stack.Screen name="Notifications" component={NotificationsScreen}/>
         <Stack.Screen name="Account" component={AccountSettings} />
         <Stack.Screen name="savedEvents" component={SavedEventsScreen} />
-        <Stack.Screen name="CustomerReviews" component={CustomerReviews} />
+        <Stack.Screen name="PreviousEventPage" component={PreviousEventPage} />
       </Stack.Navigator>
     </NavigationContainer>
 

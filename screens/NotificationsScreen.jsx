@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const NotificationsScreen = ({navigation}) => {
+const NotificationsScreen = ({ navigation }) => {
   // Tested Notifications
   const [notifications, setNotifications] = useState([
     { id: "1", name: "Mariam", message: "We’ve got an exciting new event in Business, and we think you’ll love it!", time: "8 mins ago", isNew: true },
@@ -44,7 +44,7 @@ const NotificationsScreen = ({navigation}) => {
                 <TouchableOpacity style={styles.ignoreButton} onPress={() => removeNotification(item.id)}>
                   <Icon name="close" size={20} color="#fff" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.acceptButton} onPress={() => navigation.navigate("event-details")}>
+                <TouchableOpacity style={styles.acceptButton} onPress={() => navigation.navigate("EventDetails")}>
                   <Icon name="chevron-forward" size={20} color="#fff" />
                 </TouchableOpacity>
               </View>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F4F4F4",
     padding: 10,
-    paddingBlock:70,
+    paddingBlock: 70,
   },
   emptyContainer: {
     flex: 1,

@@ -650,7 +650,7 @@ const EventsScreen = ({ navigation }) => {
                     <Text style={styles.price}>{item.price}</Text>
                     <TouchableOpacity
                       style={styles.registerBtn}
-                      onPress={() => navigation.navigate("event-details")}
+                      onPress={() => navigation.navigate("EventDetails")}
                     >
                       <LinearGradient
                         colors={[COLORS.primary, COLORS.secondary]}

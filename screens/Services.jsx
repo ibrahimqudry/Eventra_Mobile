@@ -505,6 +505,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.bgLight,
+    marginTop: 30,
   },
   scrollContent: {
     paddingBottom: SPACING.xLarge + 80,

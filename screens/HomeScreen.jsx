@@ -483,6 +483,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.bgWhite,
+    marginTop: 30,
   },
   header: {
     height: 200,

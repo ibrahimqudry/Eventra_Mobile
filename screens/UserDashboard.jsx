@@ -3,14 +3,14 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from "rea
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const UserDashboard = () => {
+const UserDashboard = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Gradient Background */}
       <LinearGradient colors={[COLORS.primary, COLORS.secondary]} style={styles.headerBackground}>
         {/* Profile Section */}
         <View style={styles.profileContainer}>
-          <Image  source={{ uri: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436180.jpg?w=900" }}  style={styles.avatar}  />
+          <Image source={{ uri: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436180.jpg?w=900" }} style={styles.avatar} />
           <Text style={styles.userName}>Mariam Ahmed</Text>
         </View>
       </LinearGradient>
@@ -18,26 +18,26 @@ const UserDashboard = () => {
       {/* Menu Items */}
       <ScrollView style={styles.menuContainer}>
         <View style={styles.section}>
-          <MenuItem label="Account" icon="person-outline" />
-        <MenuItem label="Notifications" icon="notifications-outline" />
+          <MenuItem label="Account" icon="person-outline" onPress={() => navigation.navigate("Account")}/>
+          <MenuItem label="Notifications" icon="notifications-outline" onPress={() => navigation.navigate("Notifications")} />
         </View>
 
         <View style={styles.section}>
-        <MenuItem label="Scheduled Events" icon="clipboard-outline" />
-        <MenuItem label="Your Tickets" icon="ticket-outline" />
-        <MenuItem label="Bank Accounts" icon="card-outline" />
-        <MenuItem label="Community Room" icon="chatbubble-ellipses-outline" />
-        <MenuItem label="Help/Support" icon="call-outline" />
-        <MenuItem label="Logout" icon="exit-outline" />
+          <MenuItem label="Scheduled Events" icon="clipboard-outline"/>
+          <MenuItem label="Saved Events" icon="bookmark-outline" onPress={() => navigation.navigate("savedEvents")} />
+          <MenuItem label="Your Tickets" icon="ticket-outline" />
+          <MenuItem label="Bank Accounts" icon="card-outline" />
+          <MenuItem label="Community Room" icon="chatbubble-ellipses-outline" />
+          <MenuItem label="Help/Support" icon="call-outline" />
+          <MenuItem label="Logout" icon="exit-outline" />
         </View>
       </ScrollView>
     </View>
   );
 };
 
-// Menu Item Component
-const MenuItem = ({ label, icon }) => (
-  <TouchableOpacity style={styles.menuItem}>
+const MenuItem = ({ label, icon, onPress }) => (
+  <TouchableOpacity style={styles.menuItem} onPress={onPress}>
     <Icon name={icon} size={20} color="#555" />
     <Text style={styles.menuText}>{label}</Text>
     <Icon name="chevron-forward" size={20} color="#aaa" />

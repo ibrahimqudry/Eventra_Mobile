@@ -453,6 +453,8 @@ const Services = () => {
 
 const ServiceCard = ({ service }) => {
   const [isPressed, setIsPressed] = useState(false);
+  const navigation = useNavigation();
+  
 
   return (
     <Pressable
@@ -473,7 +475,10 @@ const ServiceCard = ({ service }) => {
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle}>{service.title}</Text>
         <Text style={styles.cardDescription}>{service.description}</Text>
-        <Pressable style={styles.btnSecondary}>
+        <Pressable
+          style={styles.btnSecondary}
+          onPress={() => navigation.navigate("ServiceDetails")}
+        >
           <Text style={styles.btnSecondaryText}>Learn More</Text>
         </Pressable>
       </View>

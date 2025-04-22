@@ -67,7 +67,7 @@ export default function SplashScreen({ navigation }) {
     animationSequence.start();
 
     const navigationTimeout = setTimeout(() => {
-      navigation.replace("login");
+      navigation.replace("Home");
     }, 3500);
 
     return () => clearTimeout(navigationTimeout);

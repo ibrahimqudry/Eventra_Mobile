@@ -221,7 +221,7 @@ const EventsScreen = ({ navigation }) => {
     };
 
     setEvents(prev => [...prev, createdEvent]);
-    
+
     Toast.show({
       type: "success",
       text1: "Event Created",
@@ -229,7 +229,7 @@ const EventsScreen = ({ navigation }) => {
       position: "top",
       visibilityTime: 3000,
     });
-    
+
     setNewEventModalVisible(false);
     setNewEvent({
       title: "",
@@ -304,7 +304,7 @@ const EventsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <View style={styles.mainContent}>
         {/* Hero Section */}
         <Animated.View style={{ transform: [{ translateY: heroTranslateY }] }}>
           <ImageBackground
@@ -817,7 +817,7 @@ const EventsScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -840,6 +840,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.bgLight,
     paddingTop: 30,
+  },
+  mainContent: {
+    flex: 1,
+    position: 'relative',
+    paddingBottom: 100,
   },
   hero: {
     height: 300,
@@ -1001,9 +1006,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgLight,
     marginBottom: 10,
   },
-  scrollContent: {
-    paddingBottom: 100,
-  },
   eventsGrid: {
     marginVertical: 24,
     paddingHorizontal: 16,
@@ -1011,6 +1013,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     gap: 16,
+    paddingBottom: 50, 
   },
   eventCard: {
     width: (width - 40) / 1,

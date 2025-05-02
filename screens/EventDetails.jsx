@@ -3,7 +3,8 @@ import { View, ScrollView, Text, Image, StyleSheet, TouchableOpacity, Dimensions
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons, FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
-const EventDetails= () => {
+// Update the component to receive navigation prop
+const EventDetails = ({ navigation }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const eventImages = [
     { uri: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80' },
@@ -160,9 +161,13 @@ const EventDetails= () => {
           <Text style={styles.sectionTitle}>Previous Events</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {previousEvents.map((event) => (
-               <TouchableOpacity style={styles.previousEvents} onPress={() => navigation.navigate("PreviousEventPage")}>
-              <EventCard key={event.id} event={event} />
-              </TouchableOpacity>
+               <TouchableOpacity 
+                 key={event.id} 
+                 style={styles.previousEvents} 
+                 onPress={() => navigation.navigate("Previous")}
+               >
+                 <EventCard event={event} />
+               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>

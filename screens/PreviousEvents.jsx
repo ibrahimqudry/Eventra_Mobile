@@ -12,6 +12,20 @@ import {
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
+// Add the COLORS object
+const COLORS = {
+  primary: "#6366f1",
+  secondary: "#a855f7",
+  textPrimary: "#1f2937",
+  textSecondary: "#6b7280",
+  bgLight: "#f3f4f6",
+  bgWhite: "#ffffff",
+  success: "#4CAF50",
+  warning: "#ff9800",
+  danger: "#f44336",
+  border: "#e5e7eb",
+};
+
 const eventsData = [
   {
     id: '1',
@@ -57,16 +71,16 @@ function PreviousEvents({ navigation }) {
       <View style={styles.eventDetails}>
         <Text style={styles.eventTitle}>{item.title}</Text>
         <View style={styles.eventInfoRow}>
-          <FontAwesome name="calendar" size={14} color="#666" />
+          <FontAwesome name="calendar" size={14} color={COLORS.textSecondary} />
           <Text style={styles.eventInfoText}>{item.date}</Text>
         </View>
         <View style={styles.eventInfoRow}>
-          <FontAwesome name="map-marker" size={14} color="#666" />
+          <FontAwesome name="map-marker" size={14} color={COLORS.textSecondary} />
           <Text style={styles.eventInfoText}>{item.location}</Text>
         </View>
         <Text style={styles.eventDescription}>{item.description}</Text>
         <View style={styles.eventInfoRow}>
-          <FontAwesome name="users" size={14} color="#666" />
+          <FontAwesome name="users" size={14} color={COLORS.textSecondary} />
           <Text style={styles.eventInfoText}>{item.attendees} attendees</Text>
         </View>
       </View>
@@ -101,67 +115,79 @@ function PreviousEvents({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.bgLight,
+    paddingTop: 30,
   },
   contentContainer: {
     padding: 20,
+    paddingBottom: 40,
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
     marginVertical: 16,
-    color: '#333',
+    color: COLORS.textPrimary,
+    textAlign: 'center',
   },
   searchInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
-    fontSize: 15,
-    backgroundColor: '#fff',
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 20,
+    fontSize: 16,
+    backgroundColor: COLORS.bgWhite,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
   },
   eventCard: {
-    backgroundColor: '#f8f8f8',
-    borderRadius: 12,
+    backgroundColor: COLORS.bgWhite,
+    borderRadius: 16,
     overflow: 'hidden',
-    marginBottom: 16,
-    elevation: 1,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
   },
   eventImage: {
     width: '100%',
-    height: 180,
+    height: 200,
   },
   eventDetails: {
     padding: 16,
   },
   eventTitle: {
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 18,
-    marginBottom: 8,
-    color: '#222',
+    marginBottom: 10,
+    color: COLORS.textPrimary,
   },
   eventDescription: {
-    marginVertical: 10,
+    marginVertical: 12,
     fontSize: 14,
-    lineHeight: 20,
-    color: '#555',
+    lineHeight: 22,
+    color: COLORS.textSecondary,
   },
   eventInfoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   eventInfoText: {
-    fontSize: 13,
-    color: '#666',
+    fontSize: 14,
+    color: COLORS.textSecondary,
     marginLeft: 8,
   },
   noEventsText: {
     textAlign: 'center',
-    color: '#888',
-    marginVertical: 20,
-    fontSize: 15,
+    color: COLORS.textSecondary,
+    marginVertical: 30,
+    fontSize: 16,
   },
 });
 

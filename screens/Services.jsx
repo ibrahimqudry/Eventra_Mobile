@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native"; // أضفت ده عش�
 const { width } = Dimensions.get("window");
 
 const Services = () => {
-  const navigation = useNavigation(); // أضفت ده عشان نستخدم الـ Navigation
+  const navigation = useNavigation(); 
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selectedTab, setSelectedTab] = useState(2);

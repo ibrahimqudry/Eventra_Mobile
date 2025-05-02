@@ -29,21 +29,14 @@ export default function App() {
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Event" component={EventsScreen} />
           <Stack.Screen name="EventDetails" component={EventDetails} />
-          <Stack.Screen name="Services" component={Services} />
-          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Previous" component={PreviousEvents} />
-          <Stack.Screen
-            name="ServiceDetails"
-            component={ServiceDetails}
-            options={{
-              title: "Service Details",
-              
-            }}
-          />
+          <Stack.Screen name="Services" component={Services} />
+          <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
 
           {/* User Profile Screen */}
           <Stack.Screen name="user" component={UserDashboard} />

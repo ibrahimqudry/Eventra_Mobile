@@ -16,7 +16,9 @@ import { useRoute } from "@react-navigation/native";
 // Change the component name from ReactService to ServiceDetails
 const ServiceDetails = () => {
   const route = useRoute();
-  const { id } = route.params || {};
+  // Add a default ID if route.params is undefined or doesn't contain an id
+  const { id = 1 } = route.params || {};
+  
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState([
@@ -160,8 +162,8 @@ const ServiceDetails = () => {
     },
   ];
 
-  const service = services.find((s) => s.id === parseInt(id));
-
+  const serviceId = id ? parseInt(id) : 1;
+  const service = services.find((s) => s.id === serviceId) || services[0];
   const packages = [
     {
       id: 1,

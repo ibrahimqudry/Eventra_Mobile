@@ -26,6 +26,15 @@ A modern React Native mobile application for discovering, booking, and managing 
 
 ## 📱 Screenshots
 ![Screenshot 1](assets/screenshots/screenshot1.jpg)
+![Screenshot 2](assets/screenshots/screenshot2.jpg)
+![Screenshot 3](assets/screenshots/screenshot3.jpg)
+![Screenshot 4](assets/screenshots/screenshot4.jpg)
+![Screenshot 5](assets/screenshots/screenshot5.jpg)
+![Screenshot 6](assets/screenshots/screenshot6.jpg)
+![Screenshot 7](assets/screenshots/screenshot7.jpg)
+![Screenshot 8](assets/screenshots/screenshot8.jpg)
+![Screenshot 9](assets/screenshots/screenshot9.jpg)
+
 
 ## 🛠️ Installation
 
@@ -44,3 +53,25 @@ npm install
 ```bash
 npm start  
 ```
+
+## 📦 Project Structure
+
+eventra_mobile/
+├── assets/           # Images, fonts, and other static assets
+├── redux/            # Redux store and slices
+├── screens/          # Application screens
+│   ├── EventsScreen.jsx
+│   ├── HomeScreen.jsx
+│   ├── Login.jsx
+│   └── ...
+├── App.js           # Main application component
+└── package.json     # Project dependencies
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+##  🙏 Acknowledgments
+
+- Thanks to all contributors and supporters of this project
+- Special thanks to the React Native and Expo communities

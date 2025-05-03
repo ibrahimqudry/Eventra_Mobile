@@ -25,15 +25,23 @@ A modern React Native mobile application for discovering, booking, and managing 
 - React Native Toast Message
 
 ## 📱 Screenshots
-![Screenshot 2](assets/screenshots/screenshot2.jpg)
-![Screenshot 3](assets/screenshots/screenshot3.jpg)
-![Screenshot 4](assets/screenshots/screenshot4.jpg)
-![Screenshot 5](assets/screenshots/screenshot5.jpg)
-![Screenshot 6](assets/screenshots/screenshot6.jpg)
-![Screenshot 7](assets/screenshots/screenshot7.jpg)
-![Screenshot 8](assets/screenshots/screenshot8.jpg)
-![Screenshot 9](assets/screenshots/screenshot9.jpg)
-
+<table>
+<tr>
+    <td><img src="assets/screenshots/screenshot1.jpg" alt="Screenshot 1" /></td>
+    <td><img src="assets/screenshots/screenshot2.jpg" alt="Screenshot 2" /></td>
+    <td><img src="assets/screenshots/screenshot3.jpg" alt="Screenshot 3" /></td>
+</tr>
+<tr>
+    <td><img src="assets/screenshots/screenshot4.jpg" alt="Screenshot 4" /></td>
+    <td><img src="assets/screenshots/screenshot5.jpg" alt="Screenshot 5" /></td>
+    <td><img src="assets/screenshots/screenshot6.jpg" alt="Screenshot 6" /></td>
+</tr>
+<tr>
+    <td><img src="assets/screenshots/screenshot7.jpg" alt="Screenshot 7" /></td>
+    <td><img src="assets/screenshots/screenshot8.jpg" alt="Screenshot 8" /></td>
+    <td><img src="assets/screenshots/screenshot9.jpg" alt="Screenshot 9" /></td>
+</tr>
+</table>
 
 ## 🛠️ Installation
 

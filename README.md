@@ -7,9 +7,7 @@ A modern React Native mobile application for discovering, booking, and managing 
 - **Event Discovery**: Browse and search through various events
 - **Service Booking**: Book different services like venues, photographers, and more
 - **User Authentication**: Secure login and registration system
-- **Payment Integration**: Secure payment processing with PayPal
 - **Event Management**: Save events and track your bookings
-- **Real-time Notifications**: Stay updated with event notifications
 - **User Dashboard**: Manage your profile and preferences
 
 ## 🚀 Technologies Used
@@ -22,7 +20,6 @@ A modern React Native mobile application for discovering, booking, and managing 
 - Lottie React Native
 - React Native Vector Icons
 - React Native WebView
-- React Native Toast Message
 
 ## 📱 Screenshots
 <table>

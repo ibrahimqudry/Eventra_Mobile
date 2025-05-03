@@ -12,14 +12,14 @@ A modern React Native mobile application for discovering, booking, and managing 
 
 ## 🚀 Technologies Used
 
-- <img src="https://reactnative.dev/img/header_logo.svg" width="20"> React Native
-- <img src="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecf8c/img/header_logo.svg" width="20"> Expo
-- <img src="https://redux-toolkit.js.org/img/redux.svg" width="20"> Redux Toolkit
-- <img src="https://reactnavigation.org/img/spiro.svg" width="20"> React Navigation
-- <img src="https://docs.expo.dev/static/images/sdk/gradient.svg" width="20"> Expo Linear Gradient
-- <img src="https://github.com/airbnb/lottie-web/raw/master/images/logo.svg" width="20"> Lottie React Native
-- <img src="https://raw.githubusercontent.com/oblador/react-native-vector-icons/master/assets/logo.svg" width="20"> React Native Vector Icons
-- <img src="https://reactnative.dev/img/header_logo.svg" width="20"> React Native WebView
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white)
+![React Navigation](https://img.shields.io/badge/React_Navigation-6B52AE?style=for-the-badge&logo=react&logoColor=white)
+![Expo](https://img.shields.io/badge/Expo_Linear_Gradient-000020?style=for-the-badge&logo=expo&logoColor=white)
+![Lottie](https://img.shields.io/badge/Lottie-00D1B2?style=for-the-badge&logo=airbnb&logoColor=white)
+![Vector Icons](https://img.shields.io/badge/Vector_Icons-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![WebView](https://img.shields.io/badge/WebView-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
 ## 📱 Screenshots
 <table>

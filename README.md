@@ -12,14 +12,14 @@ A modern React Native mobile application for discovering, booking, and managing 
 
 ## 🚀 Technologies Used
 
-![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
-![Redux](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white)
-![React Navigation](https://img.shields.io/badge/React_Navigation-6B52AE?style=for-the-badge&logo=react&logoColor=white)
-![Expo](https://img.shields.io/badge/Expo_Linear_Gradient-000020?style=for-the-badge&logo=expo&logoColor=white)
-![Lottie](https://img.shields.io/badge/Lottie-00D1B2?style=for-the-badge&logo=airbnb&logoColor=white)
-![Vector Icons](https://img.shields.io/badge/Vector_Icons-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![WebView](https://img.shields.io/badge/WebView-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![React Native](https://img.shields.io/badge/React_Native-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Expo](https://img.shields.io/badge/Expo-4630EB?style=for-the-badge&logo=expo&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-593D88?style=for-the-badge&logo=redux&logoColor=white)
+![React Navigation](https://img.shields.io/badge/React_Navigation-FF4154?style=for-the-badge&logo=react&logoColor=white)
+![Expo](https://img.shields.io/badge/Expo_Linear_Gradient-2C3454?style=for-the-badge&logo=expo&logoColor=white)
+![Lottie](https://img.shields.io/badge/Lottie-FF69B4?style=for-the-badge&logo=airbnb&logoColor=white)
+![Vector Icons](https://img.shields.io/badge/Vector_Icons-00C7B7?style=for-the-badge&logo=react&logoColor=white)
+![WebView](https://img.shields.io/badge/WebView-3178C6?style=for-the-badge&logo=react&logoColor=white)
 
 ## 📱 Screenshots
 <table>

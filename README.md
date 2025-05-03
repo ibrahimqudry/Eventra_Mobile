@@ -25,7 +25,6 @@ A modern React Native mobile application for discovering, booking, and managing 
 - React Native Toast Message
 
 ## 📱 Screenshots
-![Screenshot 1](assets/screenshots/screenshot1.jpg)
 ![Screenshot 2](assets/screenshots/screenshot2.jpg)
 ![Screenshot 3](assets/screenshots/screenshot3.jpg)
 ![Screenshot 4](assets/screenshots/screenshot4.jpg)

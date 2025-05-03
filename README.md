@@ -12,14 +12,14 @@ A modern React Native mobile application for discovering, booking, and managing 
 
 ## 🚀 Technologies Used
 
-- React Native
-- Expo
-- Redux Toolkit
-- React Navigation
-- Expo Linear Gradient
-- Lottie React Native
-- React Native Vector Icons
-- React Native WebView
+- <img src="https://reactnative.dev/img/header_logo.svg" width="20"> React Native
+- <img src="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecf8c/img/header_logo.svg" width="20"> Expo
+- <img src="https://redux-toolkit.js.org/img/redux.svg" width="20"> Redux Toolkit
+- <img src="https://reactnavigation.org/img/spiro.svg" width="20"> React Navigation
+- <img src="https://docs.expo.dev/static/images/sdk/gradient.svg" width="20"> Expo Linear Gradient
+- <img src="https://github.com/airbnb/lottie-web/raw/master/images/logo.svg" width="20"> Lottie React Native
+- <img src="https://raw.githubusercontent.com/oblador/react-native-vector-icons/master/assets/logo.svg" width="20"> React Native Vector Icons
+- <img src="https://reactnative.dev/img/header_logo.svg" width="20"> React Native WebView
 
 ## 📱 Screenshots
 <table>

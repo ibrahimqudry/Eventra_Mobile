@@ -27,16 +27,13 @@ A modern React Native mobile application for discovering, booking, and managing 
 ## 📱 Screenshots
 <table>
 <tr>
-    <td><img src="assets/screenshots/screenshot1.jpg" alt="Screenshot 1" /></td>
     <td><img src="assets/screenshots/screenshot2.jpg" alt="Screenshot 2" /></td>
     <td><img src="assets/screenshots/screenshot3.jpg" alt="Screenshot 3" /></td>
-</tr>
-<tr>
     <td><img src="assets/screenshots/screenshot4.jpg" alt="Screenshot 4" /></td>
     <td><img src="assets/screenshots/screenshot5.jpg" alt="Screenshot 5" /></td>
-    <td><img src="assets/screenshots/screenshot6.jpg" alt="Screenshot 6" /></td>
 </tr>
 <tr>
+    <td><img src="assets/screenshots/screenshot6.jpg" alt="Screenshot 6" /></td>
     <td><img src="assets/screenshots/screenshot7.jpg" alt="Screenshot 7" /></td>
     <td><img src="assets/screenshots/screenshot8.jpg" alt="Screenshot 8" /></td>
     <td><img src="assets/screenshots/screenshot9.jpg" alt="Screenshot 9" /></td>
@@ -63,6 +60,7 @@ npm start
 
 ## 📦 Project Structure
 
+```plaintext
 eventra_mobile/
 ├── assets/           # Images, fonts, and other static assets
 ├── redux/            # Redux store and slices
@@ -73,6 +71,7 @@ eventra_mobile/
 │   └── ...
 ├── App.js           # Main application component
 └── package.json     # Project dependencies
+```
 
 ## 🤝 Contributing
 
